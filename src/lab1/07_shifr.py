@@ -1,4 +1,4 @@
-stroka=str(input())
+stroka=str(input("in: "))
 word=""
 num="0123456789"
 #первый символ
@@ -25,4 +25,4 @@ n=0
 while len(stroka)>(n*(k+1)):
     word=word+stroka[n*(k+1)]
     n+=1
-print(f"{word}.")
+print(f"out: {word}.")
