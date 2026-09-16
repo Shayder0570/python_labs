@@ -5,4 +5,4 @@ for i in range(n):
     fam,name,age,lab=input(f"in_{(i+2)}: ").split()
     if lab=="True":
         och+=1
-print(f"{och} {n-och}")
+print(f"out: {och} {n-och}")
