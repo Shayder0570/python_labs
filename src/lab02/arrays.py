@@ -2,7 +2,7 @@
 def min_max(nums: list[float | int]) -> tuple[float | int, float | int]:
 
     if not nums:
-        raise ValueError
+        raise ValueError("список пуст")
 
     min_val = max_val = nums[0]
 
@@ -41,6 +41,7 @@ print(f"[1.0, 1, 2.5, 2.5, 0]→{unique_sorted([1.0, 1, 2.5, 2.5, 0])}")
 def flatten(mat: list[list | tuple]) -> list:
     for i in mat:
         if i.__class__ != list and i.__class__ != tuple :
+            #raise ValueError("TypeError:строка/элемент не является списком/кортежем")
             return 'TypeError:строка/элемент не является списком/кортежем'
     big_list = []
     for stroka in mat:
