@@ -14,7 +14,7 @@
 
 
 
-![Пример работы](https://github.com/Shayder0570/python_labs/blob/main/images/lab02/array.png)
+![Пример работы](https://github.com/Shayder0570/python_labs/blob/main/images/lab02/arrays.png)
 
 ### * Задание 2 — matrix.py
 
