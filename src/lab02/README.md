@@ -5,10 +5,45 @@
 #### В коде реализованы функции:
 * min_max()
 Возвращает кортеж (минимум, максимум). Если список пуст — ValueError.
+```
+def min_max(nums: list[float | int]) -> tuple[float | int, float | int]:
+
+    min_val = max_val = nums[0]
+
+    for num in nums[1:]:
+        if num < min_val:
+            min_val = num
+        elif num > max_val:
+            max_val = num
+
+    return min_val, max_val
+
+```
+
 * unique_sorted()
 Возвращает отсортированный список уникальных значений (по возрастанию).
+
+
+```
+def unique_sorted(nums: list[float | int]) -> list[float | int]:
+    return sorted(set(nums))
+```
 * flatten()
 «Расплющивает» список списков/кортежей в один список по строкам (row-major). Если встретилась строка/элемент, который не является списком/кортежем — TypeError.
+
+```
+def flatten(mat: list[list | tuple]) -> list:
+    for i in mat:
+        if i.__class__ != list and i.__class__ != tuple :
+            #raise ValueError("TypeError:строка/элемент не является списком/кортежем")
+            return 'TypeError:строка/элемент не является списком/кортежем'
+    big_list = []
+    for stroka in mat:
+        for element in stroka:
+           big_list.append(element)
+    return big_list
+
+```
 ### Тест-кейсы:
 
 
@@ -22,12 +57,36 @@
 * transpose()
 ##### Меняет строки и столбцы местами. Пустая матрица [] → [].
 ##### Если матрица «рваная» (строки разной длины) — ValueError.
-
+```
+def transpose(mat: list[list[float | int]]) -> list[list]:
+    if not mat:
+        return []
+    for i in range(len(mat)):
+        if len(mat[i]) != len(mat[0]):
+            return 'TypeError:матрица рваная '
+            
+    return [[mat[i][j] for i in range(len(mat))] for j in range(len(mat[0]))]
+```
 * row_sums()
 ##### Суммирует по каждой строке. Требуется прямоугольность (см. выше).
+```
+def row_sums(mat: list[list[float | int]]) -> list[float]:
+    for i in range(len(mat)):
+            if len(mat[i]) != len(mat[0]):
+                return 'TypeError:матрица рваная '
 
+
+    return [sum(row) for row in mat]
+```
 * col_sums()
 ##### Суммирует по каждому столбцу. Требуется прямоугольность.
+```
+def col_sums(mat: list[list[float | int]]) -> list[float]:
+    for i in range(len(mat)):
+                if len(mat[i]) != len(mat[0]):
+                    return 'TypeError:матрица рваная '
+    return [sum(col) for col in zip(*mat)]
+```
 
 ### Тест-кейсы: 
 
@@ -42,6 +101,33 @@
 * Лишние пробелы нужно убрать (strip, «схлопнуть» внутри).
 * GPA печатается с 2 знаками (округление правилами Python).
 
+```
+
+def format_record(rec: tuple[str, str, float]) -> str:
+
+    fio, group, gpa = rec
+
+    if group.__class__ != str:
+        raise TypeError("не правильный формат группы")
+    if fio.__class__ != str:
+        raise TypeError("не правильный формат ФИО")
+    if gpa.__class__ != int and gpa.__class__ != float:
+        raise TypeError("не правильный формат gpa")
+
+    slova = fio.split()
+    if len(slova) < 2:
+        raise ValueError("Слишком короткое ФИО")
+    if not group.strip():
+        raise ValueError("пустая группа")
+
+    familia = slova[0].capitalize()
+
+    initialy = ""
+    for imya in slova[1:3]:
+        initialy += imya[0].upper() + "."
+
+    return f"{familia} {initialy}, гр. {group.strip()}, GPA {gpa:.2f}"
+```
 ### Тест-кейсы:
 
 ![Пример работы](https://github.com/Shayder0570/python_labs/blob/main/images/lab02/tuples.png)
