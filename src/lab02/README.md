@@ -5,7 +5,7 @@
 #### В коде реализованы функции:
 * min_max()
 Возвращает кортеж (минимум, максимум). Если список пуст — ValueError.
-```
+```python
 def min_max(nums: list[float | int]) -> tuple[float | int, float | int]:
 
     min_val = max_val = nums[0]
@@ -24,14 +24,14 @@ def min_max(nums: list[float | int]) -> tuple[float | int, float | int]:
 Возвращает отсортированный список уникальных значений (по возрастанию).
 
 
-```
+```python
 def unique_sorted(nums: list[float | int]) -> list[float | int]:
     return sorted(set(nums))
 ```
 * flatten()
 «Расплющивает» список списков/кортежей в один список по строкам (row-major). Если встретилась строка/элемент, который не является списком/кортежем — TypeError.
 
-```
+```python
 def flatten(mat: list[list | tuple]) -> list:
     for i in mat:
         if i.__class__ != list and i.__class__ != tuple :
@@ -70,7 +70,7 @@ def transpose(mat: list[list[float | int]]) -> list[list]:
 ```
 * row_sums()
 ##### Суммирует по каждой строке. Требуется прямоугольность (см. выше).
-```
+```python
 def row_sums(mat: list[list[float | int]]) -> list[float]:
     for i in range(len(mat)):
             if len(mat[i]) != len(mat[0]):
@@ -81,7 +81,7 @@ def row_sums(mat: list[list[float | int]]) -> list[float]:
 ```
 * col_sums()
 ##### Суммирует по каждому столбцу. Требуется прямоугольность.
-```
+```python
 def col_sums(mat: list[list[float | int]]) -> list[float]:
     for i in range(len(mat)):
                 if len(mat[i]) != len(mat[0]):
@@ -102,9 +102,15 @@ def col_sums(mat: list[list[float | int]]) -> list[float]:
 * Лишние пробелы нужно убрать (strip, «схлопнуть» внутри).
 * GPA печатается с 2 знаками (округление правилами Python).
 
-```
+```python
 
 def format_record(rec: tuple[str, str, float]) -> str:
+
+    if rec.__class__!= tuple:
+        raise TypeError("был введен не кортеж")
+
+    if len(rec)<3:
+        raise TypeError("не достаточно данных")
 
     fio, group, gpa = rec
 
