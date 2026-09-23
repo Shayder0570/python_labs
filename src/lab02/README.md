@@ -57,7 +57,8 @@ def flatten(mat: list[list | tuple]) -> list:
 * transpose()
 ##### Меняет строки и столбцы местами. Пустая матрица [] → [].
 ##### Если матрица «рваная» (строки разной длины) — ValueError.
-```
+
+```python
 def transpose(mat: list[list[float | int]]) -> list[list]:
     if not mat:
         return []
