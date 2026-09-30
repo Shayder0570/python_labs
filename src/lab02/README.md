@@ -110,8 +110,11 @@ def format_record(rec: tuple[str, str, float]) -> str:
         raise TypeError("был введен не кортеж")
 
     if len(rec)<3:
-        raise TypeError("не достаточно данных")
+        raise TypeError("недостаточно данных")
 
+    if len(rec)>3:
+        raise TypeError("излишек данных")
+        
     fio, group, gpa = rec
 
     if group.__class__ != str:
