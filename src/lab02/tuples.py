@@ -14,11 +14,11 @@ def format_record(rec: tuple[str, str, float]) -> str:
     fio, group, gpa = rec
 
     if group.__class__ != str:
-        raise TypeError("не правильный формат группы")
+        raise TypeError("неправильный формат группы")
     if fio.__class__ != str:
-        raise TypeError("не правильный формат ФИО")
+        raise TypeError("неправильный формат ФИО")
     if gpa.__class__ != int and gpa.__class__ != float:
-        raise TypeError("не правильный формат gpa")
+        raise TypeError("неправильный формат gpa")
 
     slova = fio.split()
     if len(slova) < 2:
