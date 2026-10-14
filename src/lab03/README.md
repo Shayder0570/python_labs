@@ -69,8 +69,8 @@ def text_statistic(text: str, n: int = 3, table_form: bool = False) -> str:
     tokens = tokenize(normal_text)
     counts = count_freq(tokens)
 
-    if n > len(counts.keys()):
-        n = len(counts.keys())
+    if n > len(counts):
+        n = len(counts)
 
     top = top_n(freq=counts, n=n)
 
