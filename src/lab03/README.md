@@ -38,7 +38,7 @@ def count_freq(tokens: list[str]) -> dict[str, int]:
     return result
 ```
 * top_n():
-Возвращает коп-N по убыванию частоты; при равенстве — по алфавиту слова
+Возвращает топ-N по убыванию частоты; при равенстве — по алфавиту слова
 ```python
 def top_n(freq: dict[str, int], n: int = 5) -> list[tuple[str, int]]:
     if n < 0:
