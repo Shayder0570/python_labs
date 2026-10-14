@@ -99,10 +99,10 @@ def text_statistic(text: str, n: int = 3, table_form: bool = False) -> str:
             f"Топ слов:\n{top_text}"
         )
 
-print('Введите что-либо:(для завершения- Ctrl+D)', end='\n')
+print('Введите что-либо:(для завершения- Ctrl+D[для мака или линукса])', end='\n')
 text = sys.stdin.read()
 
-print(text_statistic(text, table_form=True, n=100))
+print(text_statistic(text, table_form=True, n=92))
 ```
 
 ### Тест-кейсы: 
