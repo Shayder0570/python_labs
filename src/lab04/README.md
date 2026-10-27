@@ -107,6 +107,6 @@ print(text_statistic(text, table_form=True, n=100))
 
 ### Тест-кейсы: 
 
-![Пример работы](https://github.com/Shayder0570/python_labs/blob/main/images/lab04/2026-10-27 23.55.13.mov)
+![Пример работы](https://github.com/Shayder0570/python_labs/blob/main/images/lab04/skip.gif)
 
 
