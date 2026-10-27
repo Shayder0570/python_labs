@@ -105,4 +105,4 @@ if __name__ == '__main__':
 
 ### Тест-кейсы:
 
-![Пример работы](https://github.com/Shayder0570/python_labs/blob/main/images/lab04/text_stats.png)
+![Пример работы](https://github.com/Shayder0570/python_labs/blob/main/images/lab04/text_report.png)
