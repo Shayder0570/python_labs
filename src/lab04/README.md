@@ -1,112 +1,108 @@
-## ЛР3 — Тексты и частоты слов (словарь/множество)
-### * Задание 1 — text.py
+## ЛР4 — Файлы: TXT/CSV и отчёты по текстовой статистике
+### * Задание 1 — io_txt_csv.py
 
 #### В коде реализованы функции:
-* normalize():
-Если casefold=True — приводит к casefold. Если casefold=False - используется lower(). @changelog: 29.09
-Если yo2e=True — заменяется все ё/Ё на е/Е.
-Убрает невидимые управляющие символы (например, \t, \r) → заменяет на пробелы, схлопывает повторяющиеся пробелы в один.
-```python
-def normalize(text: str, *, casefold: bool = True, yo2e: bool = True) -> str:
-    if not text: return text
-    if casefold: text = text.casefold()
-    if yo2e: text = text.replace('ё', 'е').replace('Ё', 'Е')
-    text = text.replace("\t", " ").replace("\r", " ").replace("\n", " ")
-    return ' '.join(text.split())
-```
-
-* tokenize():
-Разбивает на «слова» по небуквенно-цифровым разделителям.
-В качестве слова считается последовательности символов \w (буквы/цифры/подчёркивание) плюс дефис внутри слова (например, по-настоящему).
-Числа (например, 2025) считются словами.
+* read_text():
+Читает файл в указанной кодировке и возвращает его содержимое одной строкой.
+По умолчанию используется UTF-8. Для другой кодировки можно передать encoding="cp1251".
+Если файл не найден — возникает FileNotFoundError, если кодировка не подходит — UnicodeDecodeError.
+Пустой файл возвращает пустую строку. Файл читается целиком; для больших файлов лучше использовать построчное чтение.
 
 ```python
-def tokenize(text: str) -> list[str]: 
-    return re.findall(r'\w+(?:-\w+)*', text)
+def read_text(path: str | Path, encoding: str = 'utf-8') -> str:
+    with open(path, 'r', encoding=encoding) as file:
+        return file.read()
 ```
-* count_freq():
-Подсчитывает частоты, вернуть словарь слово → количество.
+
+* write_csv():
+Записывает строки в CSV с разделителем-запятой и кодировкой UTF-8.
+Если передан header, записывает его первой строкой.
+Проверяет одинаковую длину строк и соответствие длине заголовка. При несовпадении возникает ValueError.
+Пустой rows без header создаёт пустой файл. С header — файл только с заголовком.
+Файл открывается через with, поэтому закрывается после выхода из блока.
+Параметр newline="" используется, чтобы при записи CSV на Windows не появлялись лишние пустые строки.
 
 ```python
-def count_freq(tokens: list[str]) -> dict[str, int]:
-    result = {}
-    for token in tokens:
-        try:
-            result[token] += 1
-        except KeyError:
-            result.update({token:1})
-    return result
-```
-* top_n():
-Возвращает коп-N по убыванию частоты; при равенстве — по алфавиту слова
-```python
-def top_n(freq: dict[str, int], n: int = 5) -> list[tuple[str, int]]:
-    if n < 0:
-        raise ValueError("число n не может быть отрицательным")
-    return sorted(freq.items(), key=lambda x: (-x[1], x[0]))[:n]
+def write_csv(rows: list[tuple | list], path: str | Path,
+              header: tuple[str, ...] | None = None) -> None:
+    if header is not None:
+        length = len(header)
+    elif rows:
+        length = len(rows[0])
+    else:
+        length = 0
+
+    for row in rows:
+        if len(row) != length:
+            raise ValueError('Все строки CSV должны иметь одинаковую длину')
+
+    with open(path, 'w', encoding='utf-8', newline='') as file:
+        writer = csv.writer(file)
+        if header is not None:
+            writer.writerow(header)
+        for row in rows:
+            writer.writerow(row)
 ```
 
 ### Тест-кейсы:
 
-
-
-
-![Пример работы](https://github.com/Shayder0570/python_labs/blob/main/images/lab03/text.png)
-
-### * Задание 2 — text_stats.py
-
-#### Скрипт читает одну строку текста из stdin (или весь ввод до EOF — на ваш выбор, опишите в README), вызывает функции из lib/text.py и печатает:
-##### ```Всего слов: <N>```
-##### ```Уникальных слов: <K>```
-##### ```Топ-5:```
-
-```python
-from text import *
-import sys
-
-def text_statistic(text: str, n: int = 3, table_form: bool = False) -> str:
-    normal_text = normalize(text)
-    tokens = tokenize(normal_text)
-    counts = count_freq(tokens)
-
-    if n > len(counts.keys()):
-        n = len(counts.keys())
-
-    top = top_n(freq=counts, n=n)
-
-    if table_form:
-        table = []
-        max_len = max(len(max(tokens, key=len)), len('Слово')) + 5
-        max_num_len = max(max(counts.values()), len('Частота')) + 2
-        table.append(f'{'Слово':<{max_len}}|{'Частота':>{max_num_len}}')
-        table.append('-' * (max_len)  + '-' * (max_num_len))
-
-        for word in counts.keys():
-            count = counts[word]
-            table.append(f'{word:<{max_len}}|{count:>{max_num_len}}')
-        
-        return '\n'.join(table)
-
-    else:
-        top_text = "\n".join(
-            f"{word}: {count}"
-            for word, count in top
-        )
-
-        return (
-            f"Всего слов: {len(tokens)}\n"
-            f"Уникальных слов: {len(counts)}\n"
-            f"Топ слов:\n{top_text}"
-        )
-
-print('Введите что-либо:(для завершения- Ctrl+D)', end='\n')
-text = sys.stdin.read()
-
-print(text_statistic(text, table_form=True, n=100))
-```
-
-### Тест-кейсы: 
-
 ![Пример работы](https://github.com/Shayder0570/python_labs/blob/main/images/lab04/skip.gif)
 
+### * Задание 2 — text_report.py
 
+#### Скрипт читает текст из одного файла, вызывает функции из lib/text.py, сохраняет частоты в CSV и печатает:
+##### `Всего слов: <N>`
+##### `Уникальных слов: <K>`
+##### `Топ-5:`
+
+Без аргументов читает data/lab04/input.txt и сохраняет результат в data/lab04/report.csv.
+Путь входного файла задаётся через --in, выходного — через --out, кодировка — через --encoding.
+Все слова записываются в CSV с колонками word,count: по убыванию частоты, при равенстве — по алфавиту.
+В консоли выводятся только первые пять слов.
+Если входной файл пустой, отчёт содержит только заголовок word,count.
+При ошибке чтения, кодировки или записи программа выводит сообщение в stderr и завершается с кодом 1.
+
+Запуск из корня репозитория: `python3 -m src.lab04.text_report`.
+Пример с другой кодировкой: `python3 -m src.lab04.text_report --in data/lab04/cp1251.txt --encoding cp1251`.
+
+```python
+def main() -> int:
+    parser = argparse.ArgumentParser(description='Частоты слов в текстовом файле')
+    parser.add_argument('--in', dest='input_file', default='data/lab04/input.txt',
+                        help='входной TXT')
+    parser.add_argument('--out', dest='output_file', default='data/lab04/report.csv',
+                        help='выходной CSV')
+    parser.add_argument('--encoding', default='utf-8', help='кодировка входного файла')
+    args = parser.parse_args()
+
+    try:
+        text = read_text(args.input_file, encoding=args.encoding)
+    except (OSError, UnicodeError, LookupError) as error:
+        print(f'Ошибка: {error}', file=sys.stderr)
+        return 1
+
+    tokens = tokenize(normalize(text))
+    counts = count_freq(tokens)
+    rows = top_n(counts, len(counts))
+
+    try:
+        write_csv(rows, args.output_file, header=('word', 'count'))
+    except OSError as error:
+        print(f'Ошибка: {error}', file=sys.stderr)
+        return 1
+
+    print(f'Всего слов: {len(tokens)}')
+    print(f'Уникальных слов: {len(counts)}')
+    print('Топ-5:')
+    for word, count in top_n(counts):
+        print(f'{word}:{count}')
+    return 0
+
+
+if __name__ == '__main__':
+    sys.exit(main())
+```
+
+### Тест-кейсы:
+
+![Пример работы](https://github.com/Shayder0570/python_labs/blob/main/images/lab04/text_stats.png)

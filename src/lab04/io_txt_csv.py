@@ -15,11 +15,9 @@ def write_csv(rows: list[tuple | list], path: str | Path,
         length = len(rows[0])
     else:
         length = 0
-
     for row in rows:
         if len(row) != length:
             raise ValueError('Все строки CSV должны иметь одинаковую длину')
-
     with open(path, 'w', encoding='utf-8', newline='') as file:
         writer = csv.writer(file)
         if header is not None:

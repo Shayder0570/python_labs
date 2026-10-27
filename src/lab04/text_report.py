@@ -35,7 +35,5 @@ def main() -> int:
     for word, count in top_n(counts):
         print(f'{word}:{count}')
     return 0
-
-
 if __name__ == '__main__':
     sys.exit(main())
