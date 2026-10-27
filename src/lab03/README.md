@@ -38,7 +38,7 @@ def count_freq(tokens: list[str]) -> dict[str, int]:
     return result
 ```
 * top_n():
-Возвращает коп-N по убыванию частоты; при равенстве — по алфавиту слова
+Возвращает топ-N по убыванию частоты; при равенстве — по алфавиту слова
 ```python
 def top_n(freq: dict[str, int], n: int = 5) -> list[tuple[str, int]]:
     if n < 0:
@@ -69,8 +69,8 @@ def text_statistic(text: str, n: int = 3, table_form: bool = False) -> str:
     tokens = tokenize(normal_text)
     counts = count_freq(tokens)
 
-    if n > len(counts.keys()):
-        n = len(counts.keys())
+    if n > len(counts):
+        n = len(counts)
 
     top = top_n(freq=counts, n=n)
 
@@ -99,10 +99,10 @@ def text_statistic(text: str, n: int = 3, table_form: bool = False) -> str:
             f"Топ слов:\n{top_text}"
         )
 
-print('Введите что-либо:(для завершения- Ctrl+D)', end='\n')
+print('Введите что-либо:(для завершения- Ctrl+D[для мака или линукса])', end='\n')
 text = sys.stdin.read()
 
-print(text_statistic(text, table_form=True, n=100))
+print(text_statistic(text, table_form=True, n=92))
 ```
 
 ### Тест-кейсы: 
