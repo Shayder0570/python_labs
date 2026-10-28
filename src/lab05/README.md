@@ -83,6 +83,8 @@ def csv_to_json(csv_path: str, json_path: str) -> None:
 
 ### Тест-кейсы:
 
+![Пример работы](https://github.com/Shayder0570/python_labs/blob/main/images/lab05/file_a.png)
+
 
 
 ### * Задание 2 — csv_xlsx.py
@@ -138,4 +140,4 @@ def csv_to_xlsx(csv_path: str, xlsx_path: str) -> None:
 
 ### Тест-кейсы:
 
-![Пример работы](https://github.com/Shayder0570/python_labs/blob/main/images/lab05/stop.gif)
+![Пример работы](https://github.com/Shayder0570/python_labs/blob/main/images/lab05/file_b.png)
