@@ -136,8 +136,6 @@ def csv_to_xlsx(csv_path: str, xlsx_path: str) -> None:
     workbook.save(target)
 ```
 
-Запуск примеров: `./.venv/bin/python -m src.lab05.examples`.
-
 ### Тест-кейсы:
 
 ![Пример работы](https://github.com/Shayder0570/python_labs/blob/main/images/lab05/file_b.png)
