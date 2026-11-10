@@ -1,0 +1,6 @@
+{
+  "python.terminal.executeInFileDir": false,
+  "python.terminal.useEnvFile": true,
+  "python.envFile": "${workspaceFolder}/.vscode/.env",
+  "python.analysis.extraPaths": ["${workspaceFolder}/src"]
+}
